@@ -1,4 +1,4 @@
-a = [
+questions = [
     "1. What is the powerhouse of the cell?",
     "2. Who developed the theory of general relativity?",
     "3. What is the value of Pi up to 3 decimal places?",
@@ -21,7 +21,7 @@ a = [
     "20. What is the main language spoken in Brazil?"
 ]
 
-b = [
+options = [
     "A) Nucleus\nB) Mitochondria\nC) Ribosome\nD) Chloroplast",
     "A) Isaac Newton\nB) Nikola Tesla\nC) Albert Einstein\nD) Galileo Galilei",
     "A) 3.124\nB) 3.141\nC) 3.142\nD) 3.154",
@@ -44,7 +44,7 @@ b = [
     "A) Portuguese\nB) Spanish\nC) French\nD) Italian"
 ]
 
-c = [
+answers = [
     "b",  # Mitochondria
     "c",  # Einstein
     "c",  # 3.142
@@ -67,21 +67,37 @@ c = [
     "a"   # Portuguese
 ]
 
-stop = False
-pts = 0
-for i in range(20):
-    print(a[i])
-    print(b[i])
-    ans = input("Your answer : ")
-    if(c[i]==ans):
-        pts = 1000*pow(2,i)
-    elif(pts == 0):
-        print("You’re a loser and didn’t win anything.\nJust kidding! :) Give it another try I’m sure you’ll win this time!")
-        stop = True
-        break
-    else:
-        print(f"Sorry, your answer was wrong but you still won {pts} pts!")
-        stop = True
-        break
-if(stop == False):
-    print(f"Congratulations on winning! :)\nYou won {pts} pts!")
+def quiz():
+    pts = 0
+    print("Welcome to the quiz! Type 'quit' anytime to exit.\n")
+    for i in range(len(questions)):
+        while True:
+            print(questions[i])
+            print(options[i])
+            ans = input("Your answer: ").strip().lower()
+
+            if ans in ['quit', 'exit']:
+                print(f"Quiz ended. You won {pts} points. Goodbye!")
+                return
+
+            if ans not in ['a', 'b', 'c', 'd']:
+                print("Invalid input! Please answer with A, B, C, or D.\n")
+                # retry the same question without ending
+                continue  
+
+            if ans == answers[i]:
+                pts = 1000 * pow(2, i)
+                print(f"Correct! Your current points: {pts}\n")
+                break  # next question
+
+            else:
+                # wrong answer with valid input ends the quiz
+                if pts == 0:
+                    print("You didn’t win anything this time. Just kidding! Give it another try!")
+                else:
+                    print(f"Wrong answer. You won {pts} points so far!")
+                return  # end quiz here
+
+    print(f"Congratulations! You completed the quiz with {pts} points!")
+
+quiz()
